@@ -3,10 +3,7 @@ const helper = require("../helper");
 const config = require("../config");
 
 async function getMultiple(page = 1) {
-  const rows = await db.query(
-    `SELECT id, name, address
-      FROM customers`
-  );
+  const rows = await db.query(`SELECT * FROM customers`);
 
   const data = helper.emptyOrRows(rows);
   const meta = { page };
@@ -20,7 +17,7 @@ async function getMultiple(page = 1) {
 async function getCustomerById(id) {
   const rows = await db.query(
     `SELECT *
-      FROM customers WHERE id = ${id}`
+      FROM customers WHERE customerId = ${id}`
   );
 
   const data = helper.emptyOrRows(rows);
@@ -32,7 +29,9 @@ async function getCustomerById(id) {
 
 async function createCutomer(customer) {
   const result = await db.query(
-    `INSERT INTO customers ( name, address) VALUES ('${customer.name}', '${customer.address}')`
+    `INSERT INTO 
+    customers ( firstName,lastName, email,phone, address,status) 
+    VALUES ('${customer.firstName}','${customer.lastName}','${customer.email}','${customer.phone}', '${customer.address}',1)`
   );
 
   let message = "Error in creating Cutomer";
@@ -46,7 +45,7 @@ async function createCutomer(customer) {
 
 async function updateCutomer(id, customer) {
   const result = await db.query(
-    `UPDATE customers SET name = '${customer.name}' , address = '${customer.address}' WHERE id = ${id}`
+    `UPDATE customers SET firstName = '${customer.firstName}' , lastName = '${customer.lastName}', email = '${customer.email}' , phone = '${customer.phone}', address= '${customer.address}' WHERE customerId = ${id}`
   );
 
   let message = "Error in updating Cutomer";
@@ -59,7 +58,9 @@ async function updateCutomer(id, customer) {
 }
 
 async function deleteCutomer(id) {
-  const result = await db.query(`DELETE FROM customers WHERE id =${id}`);
+  const result = await db.query(
+    `UPDATE customers SET status = 0 WHERE customerId =${id}`
+  );
 
   let message = "Error in deleting Cutomer";
 

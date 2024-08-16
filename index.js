@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 
 app.use(cors());
 
-app.use("/customers", customers);
+app.use("/customer", customers);
 /* Error handler middleware */
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
