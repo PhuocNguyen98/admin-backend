@@ -5,7 +5,7 @@ const customres = require("../services/customers");
 /* GET Cutomers */
 router.get("/", async function (req, res, next) {
   try {
-    res.json(await customres.getMultiple(req.query.page));
+    res.json(await customres.getMultiple(req.query.page, req.query.size));
   } catch (err) {
     console.error(`Error while getting cutomers `, err.message);
     next(err);
@@ -33,6 +33,15 @@ router.post("/", async function (req, res, next) {
 router.put("/:id", async function (req, res, next) {
   try {
     res.json(await customres.updateCutomer(req.params.id, req.body));
+  } catch (err) {
+    console.error(`Error while updating Cutomers`, err.message);
+    next(err);
+  }
+});
+
+router.put("/", async function (req, res, next) {
+  try {
+    res.json(await customres.updateMultiple(req.body));
   } catch (err) {
     console.error(`Error while updating Cutomers`, err.message);
     next(err);
